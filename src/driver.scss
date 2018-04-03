@@ -14,6 +14,34 @@ $highlighted-element-zindex: 100004;
 $animation-ms: 400;
 $animation-sec: ($animation-ms / 1000) * 1s;
 
+@mixin arrow-left() {
+  border-top-color: transparent;
+  border-right-color: $popover-bg;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+}
+
+@mixin arrow-right() {
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: $popover-bg;
+}
+
+@mixin arrow-top() {
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: $popover-bg;
+  border-left-color: transparent;
+}
+
+@mixin arrow-bottom() {
+  border-top-color: $popover-bg;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+}
+
 div#driver-popover-item {
   display: none;
   position: absolute;
@@ -34,36 +62,48 @@ div#driver-popover-item {
 
     &.bottom {
       bottom: -10px;
-      border-top-color: $popover-bg;
-      border-right-color: transparent;
-      border-bottom-color: transparent;
-      border-left-color: transparent;
+      @include arrow-bottom;
+    }
+
+    &.bottom-left {
+      top: 10px;
+      right: -10px;
+      @include arrow-right;
+    }
+
+    &.bottom-right {
+      top: 10px;
+      left: -10px;
+      @include arrow-left;
     }
 
     &.left {
       left: -10px;
       top: 10px;
-      border-top-color: transparent;
-      border-right-color: $popover-bg;
-      border-bottom-color: transparent;
-      border-left-color: transparent;
+      @include arrow-left;
     }
 
     &.right {
       right: -10px;
       top: 10px;
-      border-top-color: transparent;
-      border-right-color: transparent;
-      border-bottom-color: transparent;
-      border-left-color: $popover-bg;
+      @include arrow-right;
     }
 
     &.top {
       top: -10px;
-      border-top-color: transparent;
-      border-right-color: transparent;
-      border-bottom-color: $popover-bg;
-      border-left-color: transparent;
+      @include arrow-top;
+    }
+
+    &.top-left {
+      bottom: 10px;
+      right: -10px;
+      @include arrow-right;
+    }
+
+    &.top-right {
+      bottom: 10px;
+      left: -10px;
+      @include arrow-left;
     }
   }
 

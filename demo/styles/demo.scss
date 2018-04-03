@@ -54,6 +54,17 @@ section {
   margin-bottom: $global-guttering*1.25;
 }
 
+#fixed-driver-demo-head {
+  bottom: 20px;
+  cursor: move;
+  font-size: 45px;
+  margin-right: 3px;
+  position: fixed;
+  right: 50px;
+  width: 45px;
+  height: 63px;
+}
+
 .section__header {
   margin: 10px 0 20px;
   text-align: center;

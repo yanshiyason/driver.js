@@ -10,6 +10,14 @@ document.addEventListener("DOMContentLoaded", function () {
         nextBtnText: 'Okay, Start!'
       }
     }, {
+      element: '#fixed-driver-demo-head',
+      popover: {
+        title: 'Highlight fixed positioned items',
+        description: 'The popover will automatically be placed to fit on screen.',
+        nextBtnText: 'Sweet!',
+        position: 'corner'
+      }
+    }, {
       element: '#logo_emoji',
       popover: {
         title: 'Focus Anything',
@@ -131,6 +139,46 @@ document.addEventListener("DOMContentLoaded", function () {
     hljs.highlightBlock(element);
   });
 
+/////////////////////////////////////////////
+// Fixed width Widget – drag around
+/////////////////////////////////////////////
+  window.onload = addListeners;
+
+  window.fixedWidgetDriver = new Driver();
+
+  function addListeners(){
+      document.getElementById('fixed-driver-demo-head').addEventListener('mousedown', mouseDown, false);
+      window.addEventListener('mouseup', mouseUp, false);
+  }
+
+  function mouseUp()
+  {
+      window.removeEventListener('mousemove', divMove, true);
+  }
+
+  function mouseDown(e){
+    window.addEventListener('mousemove', divMove, true);
+  }
+
+  function divMove(e){
+      var div = document.getElementById('fixed-driver-demo-head');
+      div.style.position = 'fixed';
+      div.style.top = e.clientY + 'px';
+      div.style.left = e.clientX + 'px';
+      fixedWidgetDriver.overlay.refresh()
+  }
+
+  document.getElementById('fixed-driver-demo-head').addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    fixedWidgetDriver.highlight({
+      element: '#fixed-driver-demo-head',
+      popover: {
+        title: 'Support fixed elements in corners',
+        description: 'zzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\nzzzzzzzzzzzzzzzzz\n',
+        position: 'corner'
+      }
+    });
+  });
 
 /////////////////////////////////////////////
 // First example – highlighting without popover

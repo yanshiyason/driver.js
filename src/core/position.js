@@ -42,4 +42,12 @@ export default class Position {
       Math.round(this.top) === Math.round(position.top) &&
       Math.round(this.bottom) === Math.round(position.bottom);
   }
+
+  xCenter() {
+    return (this.right * 2) - this.left;
+  }
+
+  yCenter() {
+    return (this.bottom * 2) - this.top;
+  }
 }

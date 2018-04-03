@@ -86,6 +86,61 @@ export default class Popover extends Element {
   }
 
   /**
+   * Gets popover top position
+   * @returns {Number}
+   * @public
+   */
+  getTop(elementPosition) {
+    const popoverHeight = this.getSize().height;
+    const popoverMargin = this.options.padding + 10; // adding 10 to give it a little distance from the element
+    return elementPosition.top - popoverHeight - popoverMargin;
+  }
+  /**
+   * Gets popover bottom position
+   * @returns {Number}
+   * @public
+   */
+  getBottom(elementPosition) {
+    const popoverMargin = this.options.padding + 10; // adding 10 to give it a little distance from the element
+    return elementPosition.bottom + popoverMargin;
+  }
+  /**
+   * Gets popover left position
+   * @returns {Number}
+   * @public
+   */
+  getLeft(elementPosition) {
+    const popoverWidth = this.getSize().width;
+    const popoverMargin = this.options.padding + 10; // adding 10 to give it a little distance from the element
+    return elementPosition.left - popoverWidth - popoverMargin;
+  }
+  /**
+   * Gets popover horizontal right position
+   * @returns {Number}
+   * @public
+   */
+  getRight(elementPosition) {
+    const popoverMargin = this.options.padding + 10; // adding 10 to give it a little distance from the element
+    return elementPosition.right + popoverMargin;
+  }
+  /**
+   * Gets popover horizontal center position
+   * @returns {Number}
+   * @public
+   */
+  getXCenter(elementPosition) {
+    return elementPosition.left - this.options.padding;
+  }
+  /**
+   * Gets popover vertical center position
+   * @returns {Number}
+   * @public
+   */
+  getYCenter(elementPosition) {
+    return elementPosition.top - this.options.padding;
+  }
+
+  /**
    * Hides the popover
    * @public
    */
@@ -138,6 +193,9 @@ export default class Popover extends Element {
       case 'bottom':
         this.positionOnBottom(position);
         break;
+      case 'corner':
+        this.autoPositionCorner(position);
+        break;
       case 'auto':
       default:
         this.autoPosition(position);
@@ -182,11 +240,8 @@ export default class Popover extends Element {
    * @private
    */
   positionOnLeft(elementPosition) {
-    const popoverWidth = this.getSize().width;
-    const popoverMargin = this.options.padding + 10;  // adding 10 to give it a little distance from the element
-
-    this.node.style.left = `${elementPosition.left - popoverWidth - popoverMargin}px`;
-    this.node.style.top = `${elementPosition.top - this.options.padding}px`;
+    this.node.style.left = `${this.getLeft(elementPosition)}px`;
+    this.node.style.top = `${this.getYCenter(elementPosition)}px`;
     this.node.style.right = '';
     this.node.style.bottom = '';
 
@@ -199,10 +254,8 @@ export default class Popover extends Element {
    * @private
    */
   positionOnRight(elementPosition) {
-    const popoverMargin = this.options.padding + 10;  // adding 10 to give it a little distance from the element
-
-    this.node.style.left = `${elementPosition.right + popoverMargin}px`;
-    this.node.style.top = `${elementPosition.top - this.options.padding}px`;
+    this.node.style.left = `${this.getRight(elementPosition)}px`;
+    this.node.style.top = `${this.getYCenter(elementPosition)}px`;
     this.node.style.right = '';
     this.node.style.bottom = '';
 
@@ -215,11 +268,8 @@ export default class Popover extends Element {
    * @private
    */
   positionOnTop(elementPosition) {
-    const popoverHeight = this.getSize().height;
-    const popoverMargin = this.options.padding + 10;  // adding 10 to give it a little distance from the element
-
-    this.node.style.top = `${elementPosition.top - popoverHeight - popoverMargin}px`;
-    this.node.style.left = `${elementPosition.left - this.options.padding}px`;
+    this.node.style.top = `${this.getTop(elementPosition)}px`;
+    this.node.style.left = `${this.getXCenter(elementPosition)}px`;
     this.node.style.right = '';
     this.node.style.bottom = '';
 
@@ -232,14 +282,109 @@ export default class Popover extends Element {
    * @private
    */
   positionOnBottom(elementPosition) {
-    const popoverMargin = this.options.padding + 10;  // adding 10 to give it a little distance from the element
-
-    this.node.style.top = `${elementPosition.bottom + popoverMargin}px`;
-    this.node.style.left = `${elementPosition.left - this.options.padding}px`;
+    this.node.style.top = `${this.getBottom(elementPosition)}px`;
+    this.node.style.left = `${this.getXCenter(elementPosition)}px`;
     this.node.style.right = '';
     this.node.style.bottom = '';
 
     this.tipNode.classList.add('top');
+  }
+
+  /**
+   * Shows the popover top left of the given position
+   * @param {Position} elementPosition
+   * @private
+   */
+  positionTopLeft(elementPosition) {
+    this.node.style.top = `${this.getTop(elementPosition)}px`;
+    this.node.style.left = `${this.getLeft(elementPosition)}px`;
+    this.node.style.right = '';
+    this.node.style.bottom = '';
+
+    this.tipNode.classList.add('top-left');
+  }
+  /**
+   * Shows the popover top right of the given position
+   * @param {Position} elementPosition
+   * @private
+   */
+  positionTopRight(elementPosition) {
+    this.node.style.left = `${this.getRight(elementPosition)}px`;
+    this.node.style.top = `${this.getTop(elementPosition)}px`;
+    this.node.style.right = '';
+    this.node.style.bottom = '';
+
+    this.tipNode.classList.add('top-right');
+  }
+  /**
+   * Shows the popover bottom left of the given position
+   * @param {Position} elementPosition
+   * @private
+   */
+  positionBottomLeft(elementPosition) {
+    this.node.style.top = `${this.getBottom(elementPosition)}px`;
+    this.node.style.left = `${this.getLeft(elementPosition)}px`;
+    this.node.style.right = '';
+    this.node.style.bottom = '';
+
+    this.tipNode.classList.add('bottom-left');
+  }
+  /**
+   * Shows the popover bottom right of the given position
+   * @param {Position} elementPosition
+   * @private
+   */
+  positionBottomRight(elementPosition) {
+    this.node.style.top = `${this.getBottom(elementPosition)}px`;
+    this.node.style.left = `${this.getRight(elementPosition)}px`;
+    this.node.style.right = '';
+    this.node.style.bottom = '';
+
+    this.tipNode.classList.add('bottom-right');
+  }
+
+  /**
+   * Automatically positions the popover for elements in page corner
+   * such that the element and popover remain in view
+   * @param {Position} elementPosition
+   * @private
+   */
+  autoPositionCorner(elementPosition) {
+    const yScreenCenter = document.body.clientHeight / 2;
+    const xScreenCenter = document.body.clientWidth / 2;
+
+    let top = false;
+    let bottom = false;
+    let right = false;
+    let left = false;
+
+    if (elementPosition.yCenter() > yScreenCenter) {
+      top = true;
+    } else {
+      bottom = true;
+    }
+
+    if (elementPosition.xCenter() > xScreenCenter) {
+      left = true;
+    } else {
+      right = true;
+    }
+
+    if (top && left) {
+      this.positionTopLeft(elementPosition);
+    }
+
+    if (top && right) {
+      this.positionTopRight(elementPosition);
+    }
+
+    if (bottom && left) {
+      this.positionBottomLeft(elementPosition);
+    }
+
+    if (bottom && right) {
+      this.positionBottomRight(elementPosition);
+    }
   }
 
   /**
